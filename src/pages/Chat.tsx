@@ -457,6 +457,11 @@ export default function Chat() {
                     <div className="relative flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-brand-500 text-base font-semibold text-white shadow-sm">
                       {formatContactName(user).charAt(0).toUpperCase()}
                       <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500 dark:border-gray-900" />
+                      {roomId && (unreadCounts[roomId] ?? 0) > 0 && (
+                        <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-error-500 text-[10px] font-bold text-white shadow-sm ring-2 ring-white dark:ring-gray-900">
+                          {unreadCounts[roomId]}
+                        </span>
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center justify-between gap-3">
