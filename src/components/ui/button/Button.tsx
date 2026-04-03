@@ -4,6 +4,7 @@ interface ButtonProps {
   children: ReactNode; // Button text or content
   size?: "sm" | "md"; // Button size
   variant?: "primary" | "outline"; // Button variant
+  type?: "button" | "submit" | "reset";
   startIcon?: ReactNode; // Icon before the text
   endIcon?: ReactNode; // Icon after the text
   onClick?: () => void; // Click handler
@@ -15,6 +16,7 @@ const Button: React.FC<ButtonProps> = ({
   children,
   size = "md",
   variant = "primary",
+  type = "button",
   startIcon,
   endIcon,
   onClick,
@@ -37,6 +39,7 @@ const Button: React.FC<ButtonProps> = ({
 
   return (
     <button
+      type={type}
       className={`inline-flex items-center justify-center gap-2 rounded-lg transition ${className} ${
         sizeClasses[size]
       } ${variantClasses[variant]} ${

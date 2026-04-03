@@ -1,5 +1,5 @@
 {
-  "name": "tailadmin-react",
+  "name": "renderways-admin",
   "private": true,
   "version": "2.1.0",
   "type": "module",
@@ -19,6 +19,7 @@
     "@react-jvectormap/core": "^1.0.4",
     "@react-jvectormap/world": "^1.1.2",
     "apexcharts": "^4.1.0",
+    "axios": "^1.14.0",
     "clsx": "^2.1.1",
     "flatpickr": "^4.6.13",
     "react": "^19.0.0",
