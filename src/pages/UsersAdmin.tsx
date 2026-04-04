@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import api from "../api";
 import PageMeta from "../components/common/PageMeta";
 import Button from "../components/ui/button/Button";
@@ -15,6 +16,7 @@ interface UserItem {
 type UserRole = "employee" | "admin";
 
 export default function UsersAdmin() {
+  const navigate = useNavigate();
   const [users, setUsers] = useState<UserItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [creatingUser, setCreatingUser] = useState(false);
@@ -163,7 +165,17 @@ export default function UsersAdmin() {
           ) : (
             <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
               {users.map((user) => (
-                <div key={user.id} className="rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-white/5">
+                <div key={user.id} className="relative rounded-2xl border border-gray-200 bg-gray-50 p-4 dark:border-gray-800 dark:bg-white/5">
+                  <button
+                    type="button"
+                    title={`Add task for ${user.username}`}
+                    onClick={() => navigate(`/tasks?assign=${user.id}`)}
+                    className="absolute top-3 right-3 flex h-7 w-7 items-center justify-center rounded-full bg-brand-500 text-white hover:bg-brand-600 transition-colors"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                    </svg>
+                  </button>
                   <div className="text-base font-semibold text-gray-900 dark:text-white">
                     {user.first_name ? `${user.first_name} ${user.last_name}` : user.username}
                   </div>

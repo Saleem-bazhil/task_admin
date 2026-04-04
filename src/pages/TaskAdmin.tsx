@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router";
 import api from "../api";
 import PageMeta from "../components/common/PageMeta";
 import Input from "../components/form/input/InputField";
@@ -27,6 +28,7 @@ interface Task {
 }
 
 export default function TaskAdmin() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const currentUser = getStoredUser();
   const isAdmin = currentUser?.role === "admin";
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -53,6 +55,18 @@ export default function TaskAdmin() {
     fetchTasks();
     fetchAssignableUsers();
   }, []);
+
+  // Pre-select user when navigating from Users page with ?assign=<userId>
+  useEffect(() => {
+    const assignUserId = searchParams.get("assign");
+    if (assignUserId && users.length > 0) {
+      const match = users.find((u) => String(u.id) === assignUserId);
+      if (match) {
+        setNewTask((prev) => ({ ...prev, user_id: assignUserId }));
+        setSearchParams({}, { replace: true });
+      }
+    }
+  }, [searchParams, users]);
 
   const fetchTasks = async () => {
     try {
