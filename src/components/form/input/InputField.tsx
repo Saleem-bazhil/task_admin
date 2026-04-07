@@ -1,5 +1,5 @@
 import type React from "react";
-import { forwardRef, type FC } from "react";
+import { forwardRef } from "react";
 
 interface InputProps {
   type?: "text" | "number" | "email" | "password" | "date" | "time" | string;
