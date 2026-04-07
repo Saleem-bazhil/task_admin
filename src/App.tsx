@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Navigate, Outlet, Route, Routes } from "react-
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./components/common/ScrollToTop";
 import { isAuthenticated } from "./utils/auth";
+import ThemeAlert from "./components/common/ThemeAlert";
 
 const SignIn = lazy(() => import("./pages/AuthPages/SignIn"));
 const NotFound = lazy(() => import("./pages/OtherPage/NotFound"));
@@ -35,6 +36,7 @@ export default function App() {
   return (
     <>
       <Router>
+        <ThemeAlert/>
         <ScrollToTop />
         <Suspense fallback={<RouteLoader />}>
           <Routes>

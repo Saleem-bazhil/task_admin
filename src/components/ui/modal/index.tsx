@@ -20,18 +20,28 @@ export const Modal: React.FC<ModalProps> = ({
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        onClose();
+    if (!isOpen || !modalRef.current) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      // Only handle Escape key
+      if (event.key !== "Escape") return;
+
+      // Check if the active element is a form input
+      const activeElement = document.activeElement as HTMLElement;
+      if (activeElement && ['INPUT', 'TEXTAREA', 'SELECT'].includes(activeElement.tagName)) {
+        return; // Let the input handle the key
       }
+
+      // Close modal on Escape if not in a form field
+      event.preventDefault();
+      onClose();
     };
 
-    if (isOpen) {
-      document.addEventListener("keydown", handleEscape);
-    }
+    // Use capture phase to intercept at modal level only
+    modalRef.current.addEventListener("keydown", handleKeyDown, true);
 
     return () => {
-      document.removeEventListener("keydown", handleEscape);
+      modalRef.current?.removeEventListener("keydown", handleKeyDown, true);
     };
   }, [isOpen, onClose]);
 

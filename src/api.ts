@@ -8,7 +8,7 @@ const AUTH_FREE_PATHS = new Set([
 
 // Create an Axios instance with base URL
 export const api = axios.create({
-  baseURL: "https://api.teqtus.in/api/",
+  baseURL: "http://127.0.0.1:8000/api/",
   headers: {
     "Content-Type": "application/json",
   },

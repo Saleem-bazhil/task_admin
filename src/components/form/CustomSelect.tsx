@@ -28,7 +28,7 @@ export default function CustomSelect({
   const selectedOption = options.find((o) => String(o.value) === String(value));
 
   return (
-    <div className="relative inline-block w-full">
+    <div className="relative inline-block w-full hover:z-50 focus-within:z-50">
       <button
         type="button"
         disabled={disabled}
@@ -52,7 +52,7 @@ export default function CustomSelect({
       <Dropdown
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        className="absolute z-50 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-lg dark:bg-gray-800 dark:border-gray-700 py-1 !right-auto left-0"
+        className="absolute z-60 w-full mt-1 bg-white border border-gray-200 rounded-lg shadow-xl dark:bg-[#111827] dark:border-gray-800 py-1 !right-auto left-0"
       >
         <ul className="max-h-60 overflow-y-auto custom-scrollbar">
           {options.map((opt) => (
