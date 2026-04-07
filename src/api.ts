@@ -14,7 +14,7 @@ export const api = axios.create({
   },
 });
 
-// Add a request interceptor to attach the auth token
+
 api.interceptors.request.use(
   (config) => {
     const requestPath = config.url ?? "";
