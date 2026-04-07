@@ -1,19 +1,17 @@
 import axios from "axios";
 import { clearAuthSession } from "./utils/auth";
 
-const AUTH_FREE_PATHS = new Set([
-  "auth/login/",
-  "auth/refresh/",
-]);
+const AUTH_FREE_PATHS = new Set(["auth/login/", "auth/refresh/"]);
 
 // Create an Axios instance with base URL
 export const api = axios.create({
-  baseURL: "https://api.teqtus.in/api/",
+  baseURL: import.meta.env.DEV
+    ? "http://127.0.0.1:8000/api/"
+    : "https://api.teqtus.in/api/",
   headers: {
     "Content-Type": "application/json",
   },
 });
-
 
 api.interceptors.request.use(
   (config) => {
@@ -27,7 +25,10 @@ api.interceptors.request.use(
     }
 
     // Attempt to get token from localStorage. Can adjust the key based on how it's saved (e.g. "access" or "token")
-    const token = localStorage.getItem("access") || localStorage.getItem("token") || localStorage.getItem("accessToken");
+    const token =
+      localStorage.getItem("access") ||
+      localStorage.getItem("token") ||
+      localStorage.getItem("accessToken");
     if (token) {
       if (config.headers) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -41,7 +42,7 @@ api.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 api.interceptors.response.use(
@@ -55,7 +56,7 @@ api.interceptors.response.use(
     }
 
     return Promise.reject(error);
-  }
+  },
 );
 
 export default api;
