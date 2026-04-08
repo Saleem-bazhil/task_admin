@@ -1,4 +1,5 @@
 import { startTransition, useEffect, useRef, useState } from "react";
+import { API_BASE_URL } from "../api";
 import api from "../api";
 import PageMeta from "../components/common/PageMeta";
 import Button from "../components/ui/button/Button";
@@ -286,8 +287,8 @@ export default function Chat() {
 
     const token = localStorage.getItem(ACCESS_TOKEN_KEY);
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-    const apiBaseUrl = api.defaults.baseURL || "http://127.0.0.1:8000/api/";
-    const apiUrl = new URL(apiBaseUrl);
+    const apiBaseUrl = api.defaults.baseURL || API_BASE_URL;
+    const apiUrl = new URL(apiBaseUrl, window.location.origin);
     const search = token ? `?token=${encodeURIComponent(token)}` : "";
     const wsUrl = `${protocol}://${apiUrl.host}/ws/chat/${roomId}/${search}`;
     const ws = new WebSocket(wsUrl);

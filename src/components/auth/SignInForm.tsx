@@ -32,8 +32,12 @@ export default function SignInForm() {
         navigate("/dashboard", { replace: true });
       }
     } catch (err: any) {
-      console.error(err);
-      setError(err.response?.data?.detail || "Invalid username or password.");
+      console.error("Sign in error:", err);
+      if (!err.response) {
+        setError("Network error. Please check your connection and try again.");
+      } else {
+        setError(err.response?.data?.detail || "Invalid username or password.");
+      }
     } finally {
       setLoading(false);
     }

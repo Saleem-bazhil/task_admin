@@ -2,15 +2,27 @@ import axios from "axios";
 import { clearAuthSession } from "./utils/auth";
 
 const AUTH_FREE_PATHS = new Set(["auth/login/", "auth/refresh/"]);
+const DEFAULT_API_BASE_URL = "/api/";
+
+const normalizeBaseUrl = (value?: string) => {
+  const trimmedValue = value?.trim();
+
+  if (!trimmedValue) {
+    return DEFAULT_API_BASE_URL;
+  }
+
+  return trimmedValue.endsWith("/") ? trimmedValue : `${trimmedValue}/`;
+};
+
+export const API_BASE_URL = normalizeBaseUrl(import.meta.env.VITE_API_BASE_URL);
 
 // Create an Axios instance with base URL
 export const api = axios.create({
-  baseURL: import.meta.env.DEV
-    ? "http://127.0.0.1:8000/api/"
-    : "https://api.teqtus.in/api/",
+  baseURL: API_BASE_URL,
   headers: {
     "Content-Type": "application/json",
   },
+  timeout: 10000, // Add 10 second timeout
 });
 
 api.interceptors.request.use(
