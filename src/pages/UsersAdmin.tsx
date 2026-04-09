@@ -181,7 +181,7 @@ export default function UsersAdmin() {
       await api.post("tasks/", {
         title: taskForm.title.trim(),
         description: taskForm.description.trim(),
-        user_id: assignTaskUser.id,
+        assigned_to_ids: [assignTaskUser.id],
         priority: taskForm.priority,
         status: taskForm.status,
         due_date: taskForm.due_date ? new Date(taskForm.due_date).toISOString() : null,

@@ -1,4 +1,4 @@
-import React from "react";
+import type { RefObject } from "react";
 import Input from "../components/form/input/InputField";
 import CustomSelect from "../components/form/CustomSelect";
 
@@ -21,8 +21,8 @@ interface TaskFormFieldsProps {
     form: FormData;
     onChange: (k: string, v: string) => void;
     users: User[];
-    titleRef?: React.RefObject<HTMLInputElement | null>;
-    descriptionRef?: React.RefObject<HTMLTextAreaElement | null>;
+    titleRef?: RefObject<HTMLInputElement | null>;
+    descriptionRef?: RefObject<HTMLTextAreaElement | null>;
 }
 
 const TaskFormFields = ({
