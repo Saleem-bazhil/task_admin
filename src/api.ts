@@ -2,7 +2,9 @@ import axios from "axios";
 import { clearAuthSession } from "./utils/auth";
 
 const AUTH_FREE_PATHS = new Set(["auth/login/", "auth/refresh/"]);
-export const API_BASE_URL = "https://api.teqtus.in/api/";
+
+const rawApiBaseUrl = import.meta.env.VITE_API_BASE_URL?.trim() || "/api";
+export const API_BASE_URL = `${rawApiBaseUrl.replace(/\/+$/, "")}/`;
 
 // Create an Axios instance with base URL
 export const api = axios.create({
