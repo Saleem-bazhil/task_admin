@@ -38,6 +38,8 @@ interface Task {
   title: string;
   description: string;
   user: User | null;
+  assigned_to?: User[];
+  assigned_by?: User | null;
   status: "pending" | "in_progress" | "completed";
   priority: "low" | "medium" | "high";
   due_date: string | null;
@@ -147,7 +149,7 @@ export default function TaskAdmin() {
       const r = await api.post("tasks/", {
         title: createForm.title.trim(),
         description: createForm.description.trim(),
-        user_id: createForm.user_id ? Number(createForm.user_id) : null,
+        assigned_to_ids: createForm.user_id ? [Number(createForm.user_id)] : [],
         priority: createForm.priority,
         status: createForm.status,
         due_date: createForm.due_date ? new Date(createForm.due_date).toISOString() : null,
@@ -200,7 +202,7 @@ export default function TaskAdmin() {
     setEditForm({
       title: task.title,
       description: task.description,
-      user_id: task.user?.id ? String(task.user.id) : "",
+      user_id: task.assigned_to?.[0]?.id ? String(task.assigned_to[0].id) : "",
       priority: task.priority,
       status: task.status,
       due_date: task.due_date ? new Date(task.due_date).toISOString().slice(0, 16) : "",
@@ -216,7 +218,7 @@ export default function TaskAdmin() {
       const r = await api.patch(`tasks/${editTask.id}/`, {
         title: editForm.title.trim(),
         description: editForm.description.trim(),
-        user_id: editForm.user_id ? Number(editForm.user_id) : null,
+        assigned_to_ids: editForm.user_id ? [Number(editForm.user_id)] : [],
         priority: editForm.priority,
         status: editForm.status,
         due_date: editForm.due_date ? new Date(editForm.due_date).toISOString() : null,
@@ -411,12 +413,22 @@ export default function TaskAdmin() {
                       </td>
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-2">
-                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black ${task.user ? "bg-brand-50 dark:bg-brand-500/20 text-brand-600 dark:text-brand-400" : "bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400"}`}>
-                            {task.user?.username?.charAt(0).toUpperCase() ?? "?"}
-                          </div>
-                          <span className={`text-xs font-medium ${task.user ? "text-gray-700 dark:text-gray-300" : "text-gray-500 dark:text-gray-400 italic"}`}>
-                            {task.user?.full_name || task.user?.username || "Unassigned"}
-                          </span>
+                          {task.assigned_to && task.assigned_to.length > 0 ? (
+                            <>
+                              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black bg-brand-50 dark:bg-brand-500/20 text-brand-600 dark:text-brand-400">
+                                {task.assigned_to[0].username?.charAt(0).toUpperCase() ?? "?"}
+                              </div>
+                              <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                {task.assigned_to[0].full_name || task.assigned_to[0].username}
+                                {task.assigned_to.length > 1 && ` +${task.assigned_to.length - 1}`}
+                              </span>
+                            </>
+                          ) : (
+                            <>
+                              <div className="w-8 h-8 rounded-lg flex items-center justify-center text-xs font-black bg-gray-100 dark:bg-gray-900 text-gray-600 dark:text-gray-400">?</div>
+                              <span className="text-xs font-medium text-gray-500 dark:text-gray-400 italic">Unassigned</span>
+                            </>
+                          )}
                         </div>
                       </td>
                       <td className="px-5 py-4">

@@ -1,11 +1,11 @@
-import React from "react";
+import type { ChangeEvent, RefObject } from "react";
 
 interface FileUploadSectionProps {
     files: File[];
-    onFileSelect: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onFileSelect: (e: ChangeEvent<HTMLInputElement>) => void;
     onRemove: (index: number) => void;
     isCreating?: boolean;
-    fileInputRef?: React.RefObject<HTMLInputElement | null>;
+    fileInputRef?: RefObject<HTMLInputElement | null>;
 }
 
 const FileUploadSection = ({
